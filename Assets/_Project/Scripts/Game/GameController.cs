@@ -18,11 +18,19 @@ public class GameController : MonoBehaviour
     public Text shieldText;
     public int HeroNum;
 
-    private bool gameOver = false;
-    private float resetTimer = 3f;
+    public int LVLNUM = 0;
+
+    public object LVL1;
+
+    public bool LVLComplete = false;
+    public float resetTimer = 3f;
+
+
+
 
     void Start() {
         infoText.gameObject.SetActive(false);
+        DontDestroyOnLoad(this);
     }
 
 
@@ -39,7 +47,7 @@ public class GameController : MonoBehaviour
 
             if (player.Killed == true)
             {
-                gameOver = true;
+                LVLComplete = true;
                 infoText.gameObject.SetActive(true);
                 infoText.text = "You Lose";
             }
@@ -57,18 +65,28 @@ public class GameController : MonoBehaviour
         enemyText.text = "Enemies: " + aliveEnemies;
 
         if (aliveEnemies == 0) {
-            gameOver = true;
+            LVLComplete = true;
             infoText.gameObject.SetActive(true);
             infoText.text = "You Win! Good Job";
         }
 
-        if (gameOver == true) {
+        if (LVLComplete == true) {
             resetTimer -= Time.deltaTime;
             if (resetTimer <= 0) {
-                Cursor.visible = true;
+                if (LVLNUM == 0) {
+                    LVL1.SetActive(false);
+                    LVLNUM = 1;
+                }
+
+
+
                 SceneManager.LoadScene("Menu");
                 Cursor.visible = true;
+            
+            
+            
             }
+
         }
 
 
