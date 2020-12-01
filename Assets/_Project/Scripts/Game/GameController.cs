@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
 
     public int LVLNUM = 0;
 
-    public object LVL1;
+    public GameObject LVL1;
 
     public bool LVLComplete = false;
     public float resetTimer = 3f;
@@ -74,10 +74,16 @@ public class GameController : MonoBehaviour
             resetTimer -= Time.deltaTime;
             if (resetTimer <= 0) {
                 if (LVLNUM == 0) {
-                    LVL1.SetActive(false);
+                    LVL1.gameObject.SetActive(false);
                     LVLNUM = 1;
+                    LVL2.gameObject.SetActive(false);
                 }
-
+                if (LVLNUM == 0)
+                {
+                    LVL1.gameObject.SetActive(false);
+                    LVLNUM = 1;
+                    LVL2.gameObject.SetActive(false);
+                }
 
 
                 SceneManager.LoadScene("Menu");
