@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour
     public static Player player;
     public static Beta beta;
     public GameObject enemyContainer;
+
+
     [Header("UI")]
     public Text healthText;
     public Text ammoText;
@@ -18,19 +20,22 @@ public class GameController : MonoBehaviour
     public Text shieldText;
     public int HeroNum;
 
-    public int LVLNUM = 0;
-
-    public GameObject LVL1;
+    public int CurrentLVL;
 
     public bool LVLComplete = false;
     public float resetTimer = 3f;
 
-
+    private void Awake()
+    {
+        //Cursor.visible = true;
+        //Cursor.lockState = CursorLockMode.None;
+    }
 
 
     void Start() {
         infoText.gameObject.SetActive(false);
-        DontDestroyOnLoad(this);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
 
@@ -47,14 +52,19 @@ public class GameController : MonoBehaviour
 
             if (player.Killed == true)
             {
-                LVLComplete = true;
-                infoText.gameObject.SetActive(true);
-                infoText.text = "You Lose";
+                if (CurrentLVL == 1) {
+                    infoText.gameObject.SetActive(true);
+                    infoText.text = "You Lose";
+                    SceneManager.LoadScene("Level1");
+                }
+                if (CurrentLVL == 2) {
+                    infoText.gameObject.SetActive(true);
+                    infoText.text = "You Lose";
+                    SceneManager.LoadScene("Level2");
+                }
             }
 
         }
-
-   
 
         int aliveEnemies = 0;
         foreach (Enemy enemy in enemyContainer.GetComponentsInChildren<Enemy>()) {
@@ -73,24 +83,16 @@ public class GameController : MonoBehaviour
         if (LVLComplete == true) {
             resetTimer -= Time.deltaTime;
             if (resetTimer <= 0) {
-                if (LVLNUM == 0) {
-                    LVL1.gameObject.SetActive(false);
-                    LVLNUM = 1;
-                    LVL2.gameObject.SetActive(false);
+                if (CurrentLVL == 1) {
+                    Cursor.visible = true;
+                    SceneManager.LoadScene("Level2");
+
                 }
-                if (LVLNUM == 0)
+                if (CurrentLVL == 2)
                 {
-                    LVL1.gameObject.SetActive(false);
-                    LVLNUM = 1;
-                    LVL2.gameObject.SetActive(false);
+                    SceneManager.LoadScene("Menu");
+                    Cursor.visible = true;
                 }
-
-
-                SceneManager.LoadScene("Menu");
-                Cursor.visible = true;
-            
-            
-            
             }
 
         }
